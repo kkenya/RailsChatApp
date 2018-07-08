@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ChatMessageChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "chat_message_channel"
+    stream_from 'chat_message_channel'
   end
 
   def unsubscribed
