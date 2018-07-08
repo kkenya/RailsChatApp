@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
 class ChatMessagesController < ApplicationController
-  def index; end
+  def index
+    @chat_messages = ChatMessage.all
+  end
 end
