@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class ChatMassageTest < ActiveSupport::TestCase
+class ChatMessageTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
