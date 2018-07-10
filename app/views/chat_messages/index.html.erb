@@ -1,6 +1,6 @@
 <div id='chat_messages'>
   <% @chat_messages.each do |chat_massage| %>
-    <div><%= chat_massage.body %></div>
+    <div><%= "#{chat_massage.user_name}: #{chat_massage.body}" %></div>
   <% end %>
 </div>
 <br/>
