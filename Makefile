@@ -42,6 +42,10 @@ ps:
 # railsのメソッドを実行する(e.g. make rails db:migrate)
 rails:
 	docker-compose run app rails $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+# ターゲット名が引数に含まれていた場合エラー　'make run foo bar run'
+# すでに定義されているターゲット名が引数に含まれていた場合実行してしまう
+%:
+	@true
 
 # docker: 停止しているコンテナをすべて削除する
 .PHONY: clean
