@@ -14,22 +14,22 @@ class UserTest < ActiveSupport::TestCase
 
   test '名前が存在していること' do
     @user.name = ' '
-    assert_not @user.valid?
-  end
-
-  test 'メールが存在してること' do
-    @user.email = ' '
-    assert_not @user.valid?
+    assert @user.invalid?
   end
 
   test '名前が長すぎないこと' do
     @user.name = 'a' * 256
-    assert_not @user.valid?
+    assert @user.invalid?
+  end
+
+  test 'メールが存在してること' do
+    @user.email = ' '
+    assert @user.invalid?
   end
 
   test 'メールが長すぎないこと' do
     @user.email = 'a' * 256
-    assert_not @user.valid?
+    assert @user.invalid?
   end
 
   test 'メールの形式が正しいこと' do
@@ -55,7 +55,7 @@ class UserTest < ActiveSupport::TestCase
     ]
     invalid_addresses.each do |valid_address|
       @user.email = valid_address
-      assert_not @user.valid?, "#{valid_address.inspect} should be invalid"
+      assert @user.invalid?, "#{valid_address.inspect} should be invalid"
     end
   end
 
@@ -71,5 +71,15 @@ class UserTest < ActiveSupport::TestCase
     @user.email = mixed_case_email
     @user.save
     assert_equal mixed_case_email.downcase, @user.reload.email
+  end
+
+  test 'パスワードが存在していること' do
+    @user.password = @user.password_confirmation = ' ' * 6
+    assert @user.invalid?
+  end
+
+  test 'パスワードの長さが６文字以上であること' do
+    @user.password = @user.password_confirmation = 'a' * 5
+    assert @user.invalid?
   end
 end
