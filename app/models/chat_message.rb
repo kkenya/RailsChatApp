@@ -6,6 +6,7 @@ class ChatMessage < ApplicationRecord
   end
 
   belongs_to :user
+  belongs_to :room
 
   def user_name
     return '名無しさん' if user_id.blank?
