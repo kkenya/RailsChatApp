@@ -17,7 +17,7 @@ build:
 .PHONY: up
 up:
 	rm -rf tmp/pids/server.pid
-	docker-compose up
+	docker-compose up -d
 
 # アプリケーションを再起動する
 .PHONY: restart

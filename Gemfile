@@ -33,7 +33,7 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-# ブートストラップを利用する
+# ブートストラップ4を利用する
 gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
 # railsの起動時間を短縮する
@@ -42,6 +42,9 @@ gem 'bootsnap', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # ブレークポイントを設置しデバッグを行う
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :development do
