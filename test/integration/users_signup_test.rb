@@ -36,4 +36,18 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     assert_equal 200, status
     assert_select 'li', 4
   end
+
+  test 'ユーザー登録が成功すること' do
+    assert_difference 'User.count' do
+      post users_path, params: { user: {
+        name: 'user',
+        email: 'user@example.com',
+        password: 'password',
+        password_confirmation: 'password'
+      }}
+    end
+    follow_redirect!
+    assert_equal 200, status
+    assert_equal flash.present?
+  end
 end
