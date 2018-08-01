@@ -12,6 +12,7 @@ init:
 .PHONY: build
 build:
 	docker-compose build
+	@make up
 
 # アプリケーションを起動する
 .PHONY: up
