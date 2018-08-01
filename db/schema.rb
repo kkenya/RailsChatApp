@@ -10,14 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_17_013932) do
+ActiveRecord::Schema.define(version: 2018_07_17_055339) do
 
   create_table "chat_messages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "body"
+    t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.bigint "room_id"
+    t.index ["room_id"], name: "index_chat_messages_on_room_id"
     t.index ["user_id"], name: "index_chat_messages_on_user_id"
+  end
+
+  create_table "room_members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_room_members_on_room_id"
+    t.index ["user_id"], name: "index_room_members_on_user_id"
+  end
+
+  create_table "rooms", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -29,5 +46,8 @@ ActiveRecord::Schema.define(version: 2018_07_17_013932) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "chat_messages", "rooms"
   add_foreign_key "chat_messages", "users"
+  add_foreign_key "room_members", "rooms"
+  add_foreign_key "room_members", "users"
 end

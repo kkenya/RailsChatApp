@@ -12,12 +12,13 @@ init:
 .PHONY: build
 build:
 	docker-compose build
+	@make up
 
 # アプリケーションを起動する
 .PHONY: up
 up:
 	rm -rf tmp/pids/server.pid
-	docker-compose up
+	docker-compose up -d
 
 # アプリケーションを再起動する
 .PHONY: restart
