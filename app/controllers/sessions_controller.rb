@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user&.authenticate(params[:session][:password])
       log_in user
-      return redirect_to session[:callback] if session[:callback].present?
+      # return redirect_to session[:callback] if session[:callback].present?
       redirect_to user
     else
       flash.now[:danger] = 'Invalid email/password combination'
