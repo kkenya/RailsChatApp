@@ -33,7 +33,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     follow_redirect!
     assert_equal 200, status
-    assert_equal "/users/#{User.last.id}", path
+    assert_equal user_path(User.last.id), path
     assert flash.present?
   end
 end
