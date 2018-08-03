@@ -1,22 +1,6 @@
 require 'test_helper'
 
 class UsersSignupTest < ActionDispatch::IntegrationTest
-  # test 'ログインページが表示されること' do
-  #   get login_path
-  #   assert_equal 200, status
-  # end
-  #
-  # test 'ログインが成功し、ユーザーのページに移動すること' do
-  #   post login_path, params: { user: {
-  #     name: 'user',
-  #     email: 'user@example.com',
-  #     password: 'password',
-  #     password_confirmation: 'password'
-  #   } }
-  #   follow_redirect!
-  #   assert_equal 200, status
-  #   assert_equal '/users/1', path
-  # end
 
   test 'ユーザーの登録ページが表示されること' do
     get signup_path
@@ -38,7 +22,8 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
   end
 
   test 'ユーザー登録が成功すること' do
-    assert_difference 'User.count' do
+    get signup_path
+    assert_difference 'User.count', 1 do
       post users_path, params: { user: {
         name: 'user',
         email: 'user@example.com',
@@ -48,6 +33,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     follow_redirect!
     assert_equal 200, status
-    assert_equal flash.present?
+    assert_equal user_path(User.last.id), path
+    assert flash.present?
   end
 end

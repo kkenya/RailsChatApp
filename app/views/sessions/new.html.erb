@@ -4,16 +4,14 @@
     <%= form_for(:session, url: login_path) do |f| %>
       <div class="field">
         <%= f.label :email %>
-        <%= f.email_field :email %>
+        <%= f.email_field :email, class: 'form-control' %>
       </div>
       <div class="field">
         <%= f.label :password %>
-        <%= f.password_field :password %>
+        <%= f.password_field :password, class: 'form-control' %>
       </div>
-      <div class="actions">
-        <%= f.submit "Log in" %>
-      </div>
+      <%= f.submit "Log in", class: 'btn btn-primary' %>
     <% end %>
-    <p>New user? <%= link_to "Sign up now!", new_user_path %></p>
+    <p>New user? <%= link_to "Sign up now!", signup_path %></p>
   </div>
 </div>
