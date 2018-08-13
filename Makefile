@@ -28,7 +28,7 @@ restart:
 # ログを出力する
 .PHONY: logs
 logs:
-	docker-compose logs
+	docker-compose logs -f
 
 # アプリケーションを終了する
 .PHONY: down
@@ -52,3 +52,9 @@ rails:
 .PHONY: clean
 clean:
 	docker rm `docker ps -f "status=exited" -q`
+
+.PHONY: ls
+	docker container ls
+
+.PHONY: attach
+	docker attach $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))

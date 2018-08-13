@@ -73,11 +73,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal mixed_case_email.downcase, @user.reload.email
   end
 
-  test 'パスワードが存在していること' do
-    @user.password = @user.password_confirmation = ' ' * 6
-    assert @user.invalid?
-  end
-
   test 'パスワードの長さが６文字以上であること' do
     @user.password = @user.password_confirmation = 'a' * 5
     assert @user.invalid?
