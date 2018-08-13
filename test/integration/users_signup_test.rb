@@ -18,7 +18,23 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
       } }
     end
     assert_equal 200, status
+    assert_equal users_path, path
     assert_select 'li', 4
+  end
+
+  test 'パスワードが空のときユーザー登録が失敗すること' do
+    get signup_path
+    assert_no_difference 'User.count', 1 do
+      post users_path, params: { user: {
+        name: 'user',
+        email: 'user@example.com',
+        password: '',
+        password_confirmation: ''
+      }}
+    end
+    assert_equal 200, status
+    assert_equal users_path, path
+    assert_select 'li', 1
   end
 
   test 'ユーザー登録が成功すること' do
