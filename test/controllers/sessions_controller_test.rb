@@ -10,7 +10,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test 'ログインページが表示されること' do
     get login_path
     assert_equal 200, status
-    assert_equal '/login', path
+    assert_equal login_path, path
+      assert_select 'title', 'ログイン | chat-app'
   end
 
   test 'ログインが失敗すること' do

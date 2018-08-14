@@ -3,9 +3,17 @@ require 'test_helper'
 class UsersLoginTest < ActionDispatch::IntegrationTest
   fixtures :users
 
-  test 'ログイン後にログアウトのリンクが表示されていること' do
-    user1 = login(users(:user1))
-    assert_select 'a[href=?]', logout_path
+  def setup
+    @user = users(:user1)
+  end
+
+  test 'ログイン, ログアウトのリンクが正しく表示されていること' do
+    get root_path
+    assert_select 'a[href=?]', login_path, 1
+    assert_select 'a[href=?]', logout_path, 0
+    user1 = login(@user)
+    assert_select 'a[href=?]', login_path, 0
+    assert_select 'a[href=?]', logout_path, 1
     assert_select 'span#name', user1.name
     assert_select 'span#email', user1.email
     delete logout_path

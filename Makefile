@@ -54,7 +54,9 @@ clean:
 	docker rm `docker ps -f "status=exited" -q`
 
 .PHONY: ls
+ls:
 	docker container ls
 
 .PHONY: attach
+attach:
 	docker attach $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))

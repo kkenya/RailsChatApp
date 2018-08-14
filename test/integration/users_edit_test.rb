@@ -7,12 +7,6 @@ class UsersEditTest < ActionDispatch::IntegrationTest
     @user = users(:user1)
   end
 
-  test 'ユーザー情報の更新ページが表示されること' do
-    get edit_user_path(@user)
-    assert_equal 200, status
-    assert_equal edit_user_path(@user), path
-  end
-
   test 'ユーザー情報の更新が失敗すること' do
     get edit_user_path(@user)
     patch user_path(@user), params: { user: {
