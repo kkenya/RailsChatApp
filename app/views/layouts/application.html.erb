@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>RailsApp</title>
+  <title><%= full_title(yield(:title)) %></title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
@@ -10,27 +10,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <%= link_to "chat-app", root_path, class: "navbar-brand" %>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-    <ul class="navbar-nav">
-      <% if logged_in? %>
-        <li class="nav-item">
-          <%= link_to 'Logout', logout_path, method: :delete, class: "nav-link" %>
-        </li>
-      <% else %>
-        <li class="nav-item">
-          <%= link_to "Log in", login_path, class: "nav-link" %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</nav>
-</header>
+<%= render 'layouts/header' %>
 <div class="container">
   <% flash.each do |message_type, message| %>
     <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>

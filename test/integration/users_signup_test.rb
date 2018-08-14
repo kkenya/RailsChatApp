@@ -19,7 +19,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     assert_equal 200, status
     assert_equal users_path, path
-    assert_select 'li', 4
+    assert_select 'ul#error-messages > li', 4
   end
 
   test 'パスワードが空のときユーザー登録が失敗すること' do
@@ -34,7 +34,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     assert_equal 200, status
     assert_equal users_path, path
-    assert_select 'li', 1
+    assert_select 'ul#error-messages > li', 1
   end
 
   test 'ユーザー登録が成功すること' do
