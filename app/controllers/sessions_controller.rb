@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
       # return redirect_to session[:callback] if session[:callback].present?
       redirect_to user
     else
-      flash.now[:danger] = 'Invalid email/password combination'
+      flash.now[:danger] = '無効なメールアドレス/ユーザー名の組み合わせです'
       render 'new'
     end
   end
