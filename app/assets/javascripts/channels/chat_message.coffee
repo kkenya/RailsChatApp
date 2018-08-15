@@ -9,6 +9,7 @@ App.chat_message = App.cable.subscriptions.create "ChatMessageChannel",
     $('#chat_messages').append '<div>' + data['user_name'] + ':' + data['message'] + '</div>'
 
   speak: (message) ->
+    # フロントのデータをサーバに送信する(サーバー側のメソッド名, 送信するデータ)
     @perform 'speak', message: message
 
   $(document).on 'keypress', '[data-behavior~=speak_chat_messages]', (event) ->

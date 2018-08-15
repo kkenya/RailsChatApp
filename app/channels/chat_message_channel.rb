@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ChatMessageChannel < ApplicationCable::Channel
+  # コンシューマーがこのチャンネルのサブスクライバ側になったとき
   def subscribed
     stream_from 'chat_message_channel'
   end
