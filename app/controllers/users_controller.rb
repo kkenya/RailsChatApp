@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :logged_in_user, only: [:edit, :update, :destroy]
+
   def index
     @users = User.all
   end
@@ -40,7 +42,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update_attributes(user_params)
-      redirect_to @user, flash: { success: 'User was successfully updated.' }
+      redirect_to @user, flash: { success: 'ユーザー情報が更新されました' }
     else
       render :edit
     end
@@ -57,7 +59,7 @@ class UsersController < ApplicationController
 
   def destroy
     User.find(params[:id]).destroy
-    redirect_to users_url, flash: { danger: 'User was successfully destroyed.' }
+    redirect_to login_path, flash: { success: 'ユーザーが正常に削除されました' }
     # respond_to do |format|
     #   format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
     #   format.json { head :no_content }
@@ -68,5 +70,12 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def logged_in_user
+    unless logged_in?
+      flash[:danger] = 'ログインしてください'
+      redirect_to login_url
+    end
   end
 end
