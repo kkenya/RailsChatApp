@@ -1,4 +1,5 @@
 class RoomsController < ApplicationController
+  before_action :logged_in_user, only: [:new, :create, :show]
   def index
     @rooms = Room.all
   end

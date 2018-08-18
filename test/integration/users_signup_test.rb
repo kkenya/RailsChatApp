@@ -17,7 +17,6 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
         password_confirmation: 'bar'
       } }
     end
-    assert_equal 200, status
     assert_equal users_path, path
     assert_select 'ul#error-messages > li', 4
   end
@@ -32,7 +31,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
         password_confirmation: ''
       }}
     end
-    assert_equal 200, status
+    assert_response :success
     assert_equal users_path, path
     assert_select 'ul#error-messages > li', 1
   end
@@ -47,9 +46,10 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
         password_confirmation: 'password'
       }}
     end
+    assert_response :redirect
     follow_redirect!
-    assert_equal 200, status
-    assert_equal user_path(User.last.id), path
+    assert_response :success
+    assert_equal user_path(User.last), path
     assert flash.present?
   end
 end
