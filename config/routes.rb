@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'users#index'
+  root 'rooms#index'
   get 'chat_messages/index'
   get 'signup', to: 'users#new'
   post 'signup', to: 'users#create'
@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   resources :users
+  resources :rooms
 end

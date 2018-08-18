@@ -1,0 +1,8 @@
+<% provide(:title, 'チャットルーム一覧') %>
+<H1>Rooms</H1>
+
+<ul>
+  <% @rooms.each do |room| %>
+    <li><%= link_to room.name, room_path(room) %></li>
+  <% end %>
+</ul>

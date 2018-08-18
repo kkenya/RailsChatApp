@@ -4,7 +4,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
-    @user = users(:user1)
+    @user = users(:one)
   end
 
   test 'ログイン, ログアウトのリンクがされていること' do

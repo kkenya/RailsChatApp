@@ -4,7 +4,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
-    @user = users(:user1)
+    @user = users(:one)
   end
 
   test 'ログインページが表示されること' do
