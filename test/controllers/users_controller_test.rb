@@ -22,9 +22,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'new.html.erbが表示されること' do
-    get new_user_path
+    get signup_path
     assert_equal 200, status
-    assert_equal new_user_path, path
+    assert_equal signup_path, path
     assert_select 'title', 'ユーザーの新規登録 | chat-app'
   end
 
