@@ -56,6 +56,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # 静的コード解析を行う
   gem 'rubocop', require: false
+  # モデルからER図を生成する
+  gem 'rails-erd'
 end
 
 group :test do
