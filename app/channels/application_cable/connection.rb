@@ -8,10 +8,9 @@ module ApplicationCable
     # ユーザーがログインしていた場合、接続を確立する
     def connect
       self.current_user = find_verified_user
-      # logger.add_tags 'ActionCable', current_user.name
+      logger.add_tags 'ActionCable', current_user.name
     end
 
-    # protected
     private
 
     # ユーザーがログインしていた場合、ユーザーのインスタンを返す

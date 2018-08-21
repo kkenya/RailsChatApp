@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class ChatMessagesController < ApplicationController
+  before_action :logged_in_user, only: [:index]
+
   def index
-    unless logged_in?
-      # session[:callback] = chat_messages_index_path
-      return redirect_to login_path
-    end
+    @room = Room.find(params[:room_id])
     @chat_messages = ChatMessage.all
+    @chat_message = ChatMessage.new
   end
 end

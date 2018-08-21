@@ -1,19 +1,34 @@
-App.chat_message = App.cable.subscriptions.create "ChatMessageChannel",
-  connected: ->
-    # Called when the subscription is ready for use on the server
+jQuery(document).on 'turbolinks:load', ->
+  messages = $('#chat_messages')
+  if $('#chat_messages').length > 0
 
-  disconnected: ->
-    # Called when the subscription has been terminated by the server
+    App.chat_message = App.cable.subscriptions.create {
+      channel: "ChatMessageChannel",
+      chat_room_id: messages.data('room-id')
+    },
+    connected: ->
+      # Called when the subscription is ready for use on the server
 
-  received: (data) ->
-    $('#chat_messages').append '<div>' + data['user_name'] + ':' + data['message'] + '</div>'
+    disconnected: ->
+      # Called when the subscription has been terminated by the server
 
-  speak: (message) ->
-    # フロントのデータをサーバに送信する(サーバー側のメソッド名, 送信するデータ)
-    @perform 'speak', message: message
+    received: (data) ->
+      $('#chat_messages').append '<div>' + data['user_name'] + ':' + data['message'] + '</div>'
 
-  $(document).on 'keypress', '[data-behavior~=speak_chat_messages]', (event) ->
-    if event.keyCode is 13 #  press Enter key
-      App.chat_message.speak event.target.value
-      event.target.value = ''
-      event.preventDefault()
+    speak: (message, room_id) ->
+      # フロントのデータをサーバに送信する(サーバー側のメソッド名, 送信するデータ)
+      @perform 'speak', message: message, room_id: room_id
+
+    $('#new_chat_message').submit (e) ->
+      $this = $(this)
+      textarea = $this.find('#chat_message_content')
+      if $.trim(textarea.val()).length >= 1
+        App.chat_message.speak textarea.val(), messages.data('room-id')
+        textarea.val('')
+        e.preventDefault()
+        return false
+#    $(document).on 'keypress', '[data-behavior~=speak_chat_messages]', (event) ->
+#    if event.keyCode is 13 #  press Enter key
+#      App.chat_message.speak event.target.value
+#      event.target.value = ''
+#      event.preventDefault()

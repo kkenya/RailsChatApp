@@ -1,11 +1,12 @@
 class RoomsController < ApplicationController
   before_action :logged_in_user, only: [:new, :create, :show]
+
   def index
     @rooms = Room.all
   end
 
   def show
-    @room = Room.find(params[:id])
+    @room = Room.includes(:chat_messages).find(params[:id])
   end
 
   def new
@@ -13,7 +14,7 @@ class RoomsController < ApplicationController
   end
 
   def create
-    @room = Room.new(room_params)
+    @room = current_user.rooms.build(room_params)
 
     if @room.save
       flash[:success] = 'ルームが作成されました'
