@@ -6,3 +6,17 @@
     <li><%= user.name %></li>
   <% end %>
 </ul>
+
+<div id='chat_messages' data-room-id="<%= @room.id %>">
+  <%= render @room.chat_messages %>
+</div>
+
+<%= form_for @chat_message, url: '#' do |f| %>
+  <div class="form-group">
+    <%= f.label :content %>
+    <%= f.text_area :content, class: 'form-control' %>
+    <small class="text-muted">最大100文字です</small>
+  </div>
+
+  <%= f.submit "発言する", class: 'btn btn-primary btn-lg' %>
+<% end %>

@@ -1,5 +1,5 @@
 <% provide(:title, 'チャットルーム一覧') %>
-<H1>Rooms</H1>
+<H1>チャットルーム一覧</H1>
 
 <ul>
   <% @rooms.each do |room| %>
@@ -7,4 +7,4 @@
   <% end %>
 </ul>
 
-<%= link_to 'チャットルームの新規作成', new_room_path %>
+<%= link_to 'チャットルームの新規作成', new_room_path, class: 'btn btn-primary' %>

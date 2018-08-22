@@ -2,6 +2,8 @@
 
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
+    attr_accessor :current_user
+
     # 接続ID
     identified_by :current_user
 

@@ -6,7 +6,8 @@ class RoomsController < ApplicationController
   end
 
   def show
-    @room = Room.includes(:chat_messages).find(params[:id])
+    @room = Room.includes([:chat_messages, :users]).find(params[:id])
+    @chat_message = ChatMessage.new
   end
 
   def new
@@ -23,6 +24,8 @@ class RoomsController < ApplicationController
       render 'new'
     end
   end
+
+  private
 
   def room_params
     params.require(:room).permit(:name)
