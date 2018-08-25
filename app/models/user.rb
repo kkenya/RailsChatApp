@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_blank: true
 
-  has_many :room_members
+  has_many :room_members, dependent: :destroy
   has_many :rooms, through: :room_members
-  has_many :chat_messages
+  has_many :chat_messages, dependent: :destroy
 end

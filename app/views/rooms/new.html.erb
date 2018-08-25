@@ -1,0 +1,13 @@
+<% provide(:title, 'チャットルームの新規作成') %>
+<h1>ルームの作成</h1>
+
+<%= form_for(@room) do |f| %>
+  <%= render 'shared/error_messages', user: @room %>
+
+  <div class="form-group">
+    <%= f.label :name, 'ルーム名' %>
+    <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+  </div>
+
+  <%= f.submit "作成", class: 'btn btn-primary' %>
+<% end %>

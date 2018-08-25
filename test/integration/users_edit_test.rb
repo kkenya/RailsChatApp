@@ -4,7 +4,7 @@ class UsersEditTest < ActionDispatch::IntegrationTest
   fixtures :users
 
   def setup
-    @user = users(:user1)
+    @user = users(:one)
   end
 
   test 'ユーザー情報の更新が失敗すること' do

@@ -5,9 +5,9 @@
 //= require_self
 //= require_tree ./channels
 
+// コンシューマー側で接続のインスタンスを確立する
 (function() {
   this.App || (this.App = {});
 
   App.cable = ActionCable.createConsumer();
-
 }).call(this);
