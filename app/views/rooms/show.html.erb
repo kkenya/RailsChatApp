@@ -13,7 +13,6 @@
 
 <%= form_for @chat_message, url: '#' do |f| %>
   <div class="form-group">
-    <%= f.label :content %>
     <%= f.text_area :content, class: 'form-control' %>
     <small class="text-muted">最大100文字です</small>
   </div>

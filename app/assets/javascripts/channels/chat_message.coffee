@@ -16,7 +16,6 @@ jQuery(document).on 'turbolinks:load', ->
       $('#chat_messages').append data['chat_message']
 
     speak: (chat_message, room_id) ->
-      # フロントのデータをサーバに送信する(サーバー側のメソッド名, 送信するデータ)
       @perform 'speak', chat_message: chat_message, room_id: room_id
 
     $('#new_chat_message').submit (e) ->
