@@ -1,6 +1,9 @@
 jQuery(document).on 'turbolinks:load', ->
   chat_messages = $('#chat_messages')
   if $('#chat_messages').length > 0
+    chat_message_to_bottom = => chat_messages.scrollTop(chat_messages.prop("scrollHeight"))
+
+    chat_message_to_bottom()
 
     App.chat_message = App.cable.subscriptions.create {
       channel: "ChatMessageChannel",
@@ -13,7 +16,8 @@ jQuery(document).on 'turbolinks:load', ->
       # Called when the subscription has been terminated by the server
 
     received: (data) ->
-      $('#chat_messages').append data['chat_message']
+      chat_messages.append data['chat_message']
+      chat_message_to_bottom()
 
     speak: (chat_message, room_id) ->
       @perform 'speak', chat_message: chat_message, room_id: room_id
