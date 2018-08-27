@@ -45,6 +45,8 @@ group :development, :test do
   # ブレークポイントを設置しデバッグを行う
   gem 'pry-rails'
   gem 'pry-byebug'
+  # モダンなJSを利用する
+  gem 'webpacker', '~> 3.5'
 end
 
 group :development do
