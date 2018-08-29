@@ -6,10 +6,8 @@
 <div id="other-videos"></div>
 <video id="self-video" muted autoplay playsinline></video>
 
-<p>あなたのID<span id="self-id"></span></p>
-
 <form id="make-call">
-  <input type="text" placeholder="ルーム名" id="join-room">
+  <input id="join-room" type="text" placeholder="ルーム名">
   <button type="submit">参加する</button>
 </form>
 
@@ -22,6 +20,17 @@
   <label for="videoSource">映像入力: </label>
   <select id="videoSource"></select>
 </div>
+
+<div id="step1">
+  <p>Please click `allow` on the top of the screen so we can access your webcam and microphone for calls.</p>
+  <div id="step1-error">
+    <p>Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow
+      when asked for permission by the browser.</p>
+    <a href="#" id="step1-retry">Try again</a>
+  </div>
+</div>
+
+<a href="#" id="end-call">End call</a>
 
 <ul>
   <% @room.users.each do |user| %>
