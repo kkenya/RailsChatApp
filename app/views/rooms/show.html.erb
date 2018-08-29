@@ -3,6 +3,26 @@
 
 <H1><%= @room.name %></H1>
 
+<div id="other-videos"></div>
+<video id="self-video" muted autoplay playsinline></video>
+
+<p>あなたのID<span id="self-id"></span></p>
+
+<form id="make-call">
+  <input type="text" placeholder="ルーム名" id="join-room">
+  <button type="submit">参加する</button>
+</form>
+
+<div class="select">
+  <label for="audioSource">音声入力: </label>
+  <select id="audioSource"></select>
+</div>
+
+<div class="select">
+  <label for="videoSource">映像入力: </label>
+  <select id="videoSource"></select>
+</div>
+
 <ul>
   <% @room.users.each do |user| %>
     <li><%= user.name %></li>
