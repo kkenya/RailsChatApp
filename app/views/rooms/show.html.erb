@@ -3,29 +3,22 @@
 
 <H1><%= @room.name %></H1>
 
-<div id="other-videos"></div>
-<video id="self-video" muted autoplay playsinline></video>
-
-<form id="make-call">
-  <input id="join-room" type="text" placeholder="ルーム名">
-  <button type="submit">参加する</button>
-</form>
-
 <div class="select">
   <label for="audioSource">音声入力: </label>
   <select id="audioSource"></select>
 </div>
-
 <div class="select">
   <label for="videoSource">映像入力: </label>
   <select id="videoSource"></select>
 </div>
 
+<div id="other-videos"></div>
+<video id="self-video" muted autoplay playsinline></video>
+
 <div id="step1">
-  <p>Please click `allow` on the top of the screen so we can access your webcam and microphone for calls.</p>
+  <p>カメラとマイクの使用を許可してください.</p>
   <div id="step1-error">
-    <p>Failed to access the webcam and microphone. Make sure to run this demo on an http server and click allow
-      when asked for permission by the browser.</p>
+    <p>カメラとマイクにアクセスできません. ブラウザにカメラとマイクの使用を許可してください.</p>
     <a href="#" id="step1-retry">Try again</a>
   </div>
 </div>

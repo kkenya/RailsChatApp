@@ -4,7 +4,6 @@ const peer = new Peer({
   key: 'f9b3b9aa-98f6-4bb5-8370-da8733e59521',
   debug: 3,
 });
-let localStream;
 let room;
 
 window.onload = () => {
@@ -17,26 +16,12 @@ window.onload = () => {
     removeOtherVideos();
   });
 
-  // fixme remove
-  document.getElementById('make-call').addEventListener('submit', (event) => {
-    console.log('submit');
-    event.preventDefault();
-    const roomName = document.getElementById('join-room').value;
-    if (!roomName) {
-      return;
-    }
-    room = peer.joinRoom(roomName, {stream: localStream});
-
-    step3(room);
-  });
-
   document.getElementById('end-call').addEventListener('click', () => {
     room.close();
     removeOtherVideos();
   });
 
   document.getElementById('step1-retry').addEventListener('click', () => {
-    // document.getElementById('step1-error').style.display = 'block';
     // visualizeElementById('step1-error');
     step1();
   });
@@ -88,17 +73,19 @@ window.onload = () => {
       .then((stream) => {
         const selfVideo = document.getElementById('self-video');
         selfVideo.srcObject = stream;
-        localStream = stream;
-        // fixme
-        // selfVideo.setAttribute('width', '200');
-        // selfVideo.style.display = 'inline-block';
+        // fixme styles
+        setVideoStyles(selfVideo);
 
         if (room) {
           room.replaceStream(stream);
           return;
         }
+        const roomName = document.getElementsByTagName('h1')[0].innerText;
+        room = peer.joinRoom(roomName, {stream: stream});
 
         removeOtherVideos();
+
+        step3(room);
       })
       .catch((err) => {
         // hideElementById('step1-error');
@@ -112,19 +99,17 @@ window.onload = () => {
       const otherVideos = document.getElementById('other-videos');
 
       const div = document.createElement('div');
-      div.id = id;
-      // div.style.display = 'inline-block';
-
       const video = document.createElement('video');
       // fixme
       // video.className = 'remoteVideos';
+      div.id = id;
       video.autoplay = true;
       video.playsinline = true;
       video.srcObject = stream;
       video.play();
-      // todo
-      // video.setAttribute('playsinline', true);
-      // video.setAttribute('width', '200');
+      // fixme styleの修正
+      setVideoStyles(video);
+
       div.appendChild(video);
       otherVideos.appendChild(div);
       // fixme playをdom追加前後どちらにするか
@@ -132,9 +117,6 @@ window.onload = () => {
     });
 
     room.on('removeStream', (stream) => {
-      // fixme
-      // const videoContainer = document.getElementById(elementId);
-      // videoContainer.parentNode.removeChild(videoContainer);
       removeSelfById(videoId(stream.peerId))
     });
 
@@ -174,4 +156,11 @@ window.onload = () => {
   // const hideElementById = (id) => {
   //   document.getElementById(id).style.display = 'block';
   // };
+
+  const setVideoStyles = (element) => {
+    element.style.display = 'inline-block';
+    element.setAttribute('playsinline', true);
+    element.setAttribute('width', '200');
+    element.style.display = 'inline-block';
+  }
 };
