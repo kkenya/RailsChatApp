@@ -1,14 +1,23 @@
 import Peer from 'skyway-js';
 
-const peer = new Peer({
-  key: 'f9b3b9aa-98f6-4bb5-8370-da8733e59521',
-  debug: 3,
-});
-let room;
+document.addEventListener('DOMContentLoaded', (event) => {
+  const peer = new Peer({
+    key: 'f9b3b9aa-98f6-4bb5-8370-da8733e59521',
+    debug: 3,
+  });
+  const dom = {
+    otherVideos: document.getElementById('other-videos'),
+    endCallButton: document.getElementById('end-call'),
+    retryButton: document.getElementById('retry'),
+    audioSelect: document.getElementById('audioSource'),
+    videoSelect: document.getElementById('videoSource'),
+    selfVideo: document.getElementById('self-video'),
+    roomName: document.getElementsByTagName('h1')[0],
+  };
+  let room;
 
-window.onload = () => {
   peer.on('open', () => {
-    step1();
+    getStreamJoinRoom();
   });
 
   peer.on('error', (err) => {
@@ -16,24 +25,22 @@ window.onload = () => {
     removeOtherVideos();
   });
 
-  document.getElementById('end-call').addEventListener('click', () => {
+  dom.endCallButton.addEventListener('click', () => {
     room.close();
     removeOtherVideos();
   });
 
-  document.getElementById('step1-retry').addEventListener('click', () => {
+  dom.retryButton.addEventListener('click', () => {
     // visualizeElementById('step1-error');
-    step1();
+    getStreamJoinRoom();
   });
 
   navigator.mediaDevices.enumerateDevices()
     .then((deviceInfos) => {
-      const audioSelect = document.getElementById('audioSource');
-      const videoSelect = document.getElementById('videoSource');
-      const selectors = [audioSelect, videoSelect];
+      const selectors = [dom.audioSelect, dom.videoSelect];
       const optionValues = selectors.map(select => select.value || '');
 
-      selectors.forEach(selector => removeChildrenById(selector.id));
+      selectors.forEach(select => removeChildren(select));
 
       // セレクタに入力デバイスを追加
       for (let i = 0; i < deviceInfos.length; i += 1) {
@@ -42,11 +49,11 @@ window.onload = () => {
         option.value = deviceInfo.deviceId;
 
         if (deviceInfo.kind === 'audioinput') {
-          option.innerText = deviceInfo.label || `Microphone ${audioSelect.childElementCount + 1}`;
-          audioSelect.appendChild(option);
+          option.innerText = deviceInfo.label || `Microphone ${dom.audioSelect.childElementCount + 1}`;
+          dom.audioSelect.appendChild(option);
         } else if (deviceInfo.kind === 'videoinput') {
-          option.innerText = deviceInfo.label || `Camera ${videoSelect.childElementCount + 1}`
-          videoSelect.appendChild(option);
+          option.innerText = deviceInfo.label || `Camera ${dom.videoSelect.childElementCount + 1}`
+          dom.videoSelect.appendChild(option);
         }
       }
 
@@ -61,31 +68,30 @@ window.onload = () => {
         }
       });
 
-      videoSelect.addEventListener('change', step1);
-      audioSelect.addEventListener('change', step1);
+      dom.videoSelect.addEventListener('change', getStreamJoinRoom);
+      dom.audioSelect.addEventListener('change', getStreamJoinRoom);
     })
     .catch(err => console.error(err));
 
-  const step1 = () => {
+  const getStreamJoinRoom = () => {
     const constraints = {audio: true, video: true};
 
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
-        const selfVideo = document.getElementById('self-video');
-        selfVideo.srcObject = stream;
+        dom.selfVideo.srcObject = stream;
         // fixme styles
-        setVideoStyles(selfVideo);
+        setVideoStyles(dom.selfVideo);
 
         if (room) {
           room.replaceStream(stream);
           return;
         }
-        const roomName = document.getElementsByTagName('h1')[0].innerText;
-        room = peer.joinRoom(roomName, {stream: stream});
+        const roomName = dom.roomName.innerText;
+        room = peer.joinRoom(roomName, {mode: 'sfu', stream: stream});
 
         removeOtherVideos();
 
-        step3(room);
+        setRoomEvents(room);
       })
       .catch((err) => {
         // hideElementById('step1-error');
@@ -93,37 +99,36 @@ window.onload = () => {
       });
   };
 
-  const step3 = (room) => {
+  const setRoomEvents = (room) => {
     room.on('stream', (stream) => {
       const id = videoId(stream.peerId);
-      const otherVideos = document.getElementById('other-videos');
-
       const div = document.createElement('div');
       const video = document.createElement('video');
-      // fixme
-      // video.className = 'remoteVideos';
       div.id = id;
-      video.autoplay = true;
-      video.playsinline = true;
       video.srcObject = stream;
-      video.play();
-      // fixme styleの修正
       setVideoStyles(video);
 
       div.appendChild(video);
-      otherVideos.appendChild(div);
-      // fixme playをdom追加前後どちらにするか
-      // video.play();
+      dom.otherVideos.appendChild(div);
     });
 
     room.on('removeStream', (stream) => {
-      removeSelfById(videoId(stream.peerId))
+      removeSelf(document.getElementById(videoId(stream.peerId)));
     });
 
     room.on('close', removeOtherVideos);
 
+    // room.on('log', (array) => {
+    //   console.log(array);
+    // });
+
+    room.on('peerJoin', (peerId) => {
+      console.log(`${peerId}さんが参加しました`);
+    });
+
     room.on('peerLeave', (peerId) => {
-      removeSelfById(videoId(peerId));
+      console.log(`${peerId}さんが退出しました`);
+      removeSelf(document.getElementById(videoId(peerId)));
     });
 
     // hideElementById('step1');
@@ -131,20 +136,20 @@ window.onload = () => {
     // visualizeElementById('step3');
   };
 
-  const removeChildrenById = (id) => {
-    const element = document.getElementById(id);
+  const removeChildren = (element) => {
     while (element.firstChild) {
       element.removeChild(element.firstChild);
     }
   };
 
   const removeOtherVideos = () => {
-    removeChildrenById('other-videos');
+    removeChildren(dom.otherVideos);
   };
 
-  const removeSelfById = (id) => {
-    const element = document.getElementById(id);
-    element.parentNode.removeChild(element);
+  const removeSelf = (element) => {
+    if(element.parentNode){
+      element.parentNode.removeChild(element);
+    }
   };
 
   const videoId = (peerId => `video-${peerId}`);
@@ -157,10 +162,11 @@ window.onload = () => {
   //   document.getElementById(id).style.display = 'block';
   // };
 
-  const setVideoStyles = (element) => {
-    element.style.display = 'inline-block';
-    element.setAttribute('playsinline', true);
-    element.setAttribute('width', '200');
-    element.style.display = 'inline-block';
-  }
-};
+  const setVideoStyles = (video) => {
+    video.playsinline = true;
+    video.autoplay = true;
+    video.width = 200;
+    video.style.display = 'inline-block';
+    video.play();
+  };
+});
