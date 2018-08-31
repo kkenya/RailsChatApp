@@ -124,6 +124,7 @@ GEM
     parallel (1.12.1)
     parser (2.5.1.0)
       ast (~> 2.4.0)
+    pg (1.1.2)
     popper_js (1.12.9)
     powerpack (0.1.2)
     pry (0.11.3)
@@ -175,6 +176,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    redis (4.0.2)
     rubocop (0.58.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -254,11 +256,13 @@ DEPENDENCIES
   jquery-rails
   listen (>= 3.0.5, < 3.2)
   mysql2 (>= 0.4.4, < 0.6.0)
+  pg
   pry-byebug
   pry-rails
   puma (~> 3.11)
   rails (~> 5.2.0)
   rails-erd
+  redis (~> 4.0)
   rubocop
   sass-rails (~> 5.0)
   selenium-webdriver
@@ -273,4 +277,4 @@ RUBY VERSION
    ruby 2.5.0p0
 
 BUNDLED WITH
-   1.16.1
+   1.16.4

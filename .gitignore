@@ -32,6 +32,9 @@
 # macOS dotfile
 .DS_Store
 
+# direnv
+.envrc
+
 # environment variables
 .env.dev
 /public/packs
