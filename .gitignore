@@ -32,5 +32,13 @@
 # macOS dotfile
 .DS_Store
 
+# direnv
+.envrc
+
 # environment variables
 .env.dev
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
