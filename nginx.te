@@ -1,0 +1,56 @@
+
+module nginx 1.0;
+
+require {
+	type unconfined_t;
+	type home_root_t;
+	type cert_t;
+	type mysqld_t;
+	type audio_home_t;
+	type httpd_t;
+	type user_home_t;
+	type var_log_t;
+	type ftpd_t;
+	type etc_t;
+	class sock_file write;
+	class unix_stream_socket connectto;
+	class capability sys_nice;
+	class file { getattr open read write };
+	class dir { getattr read write };
+}
+
+#============= ftpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow ftpd_t audio_home_t:dir getattr;
+
+#!!!! This avc is allowed in the current policy
+allow ftpd_t home_root_t:file getattr;
+
+#============= httpd_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t cert_t:file write;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t etc_t:file write;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t unconfined_t:unix_stream_socket connectto;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t user_home_t:dir { read write };
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t user_home_t:file { open read };
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t user_home_t:sock_file write;
+
+#!!!! This avc is allowed in the current policy
+allow httpd_t var_log_t:file write;
+
+#============= mysqld_t ==============
+
+#!!!! This avc is allowed in the current policy
+allow mysqld_t self:capability sys_nice;

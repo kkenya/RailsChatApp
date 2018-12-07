@@ -38,6 +38,8 @@ gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
 # railsの起動時間を短縮する
 gem 'bootsnap', require: false
+# モダンなJSを利用する
+gem 'webpacker', '~> 3.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -45,8 +47,6 @@ group :development, :test do
   # ブレークポイントを設置しデバッグを行う
   gem 'pry-rails'
   gem 'pry-byebug'
-  # モダンなJSを利用する
-  gem 'webpacker', '~> 3.5'
 end
 
 group :development do

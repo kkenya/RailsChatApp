@@ -1,6 +1,9 @@
 require_relative 'boot'
 
 require 'rails/all'
+# undefined method `has_one_attached' for #<Class:0x0000555c403ca360> (NoMethodError)
+require 'active_storage/engine'
+require 'active_storage'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
